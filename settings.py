@@ -11,4 +11,4 @@ DATABASE = {
     'database': 'opensooq'
     }
 
-ITEM_PIPELINES = ['opensooq.pipelines.OpenSooqPipeline']
+ITEM_PIPELINES = {'opensooq.pipeline.OpenSooqPipeline':100,}

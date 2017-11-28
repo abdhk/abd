@@ -1,14 +1,13 @@
-from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
-from sqlalchemy.ext.declarative improt declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 import settings
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
 
+DeclarativeBase = declarative_base()
 
 def db_connect():
     return create_engine(URL(**settings.DATABASE))
 
-
-Declarative_base = declarative_base()
 
 def create_deals_table(engine):
     """"""
@@ -24,7 +23,7 @@ class Deals(DeclarativeBase):
     brand = Column('brand', String, nullable=True)
     model = Column('model', String, nullable=True)
     model_year = Column('model_year', String, nullable=True)
-    status = Columns('status', String, nullable=True)
+    status = Column('status', String, nullable=True)
     gear_type = Column('gear_type', String, nullable=True)
     fuel_type = Column('fiel_type', String, nullable=True)
     color = Column('color', String, nullable=True)

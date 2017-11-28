@@ -2,7 +2,7 @@ from sqlalchemy.orm import sessionmaker
 from model import db_connect, create_deals_table, Deals
 
 
-class OpenSooqPipeline(objecr):
+class OpenSooqPipeline(object):
     def __init__ (self):
         engine = db_connect()
         create_deals_table(engine)
