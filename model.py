@@ -29,6 +29,8 @@ class Deals(DeclarativeBase):
     color = Column('color', String, nullable=True)
     payment_type = Column('Payment_type', String, nullable=True)
     description = Column('description', String, nullable = True)
+    url= Column('url', String, nullable=True)
+    price = Column('price', String, nullable=True)
     
 
 

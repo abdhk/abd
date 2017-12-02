@@ -12,6 +12,8 @@ class OpenSooqCar(Item):
     payment_type = Field()
     description = Field()
     url = Field()
+    price = Field()
+    
     
     
     

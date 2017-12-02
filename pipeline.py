@@ -22,6 +22,5 @@ class OpenSooqPipeline(object):
         finally:
             session.close()
         return item
-    
         
         

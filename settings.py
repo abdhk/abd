@@ -10,5 +10,7 @@ DATABASE = {
     'password': '',
     'database': 'opensooq'
     }
+IMAGE_STORE = '/images'
 
-ITEM_PIPELINES = {'opensooq.pipeline.OpenSooqPipeline':100,}
+ITEM_PIPELINES = {'opensooq.pipeline.OpenSooqPipeline':1,}
+
