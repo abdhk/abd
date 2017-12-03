@@ -8,14 +8,33 @@ from opensooq.items import OpenSooqCar
 import sqlalchemy as sa
 import pandas as pd
 
+
+def process_links(link):
+    self.logger.info('---------{}----------'.format(link))
+    if not link in self.scrapped_urls:
+        yield link
+    else:
+        self.logger.info('----------LINK IGNORED------------')
+
+            
 class Opensooq(CrawlSpider):
     name = "opensooq"
     allowed_domains = ["opensooq.com"]
     cars_list_xpath = "//div[contains(@class, 'galleryCont')]"
     start_urls = [u"https://sa.opensooq.com/ar/%D8%AD%D8%B1%D8%A7%D8%AC-%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA/%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D9%84%D9%84%D8%A8%D9%8A%D8%B9"]
+
+    def __init__(self):
+        super().__init__()
+        con = sa.create_engine('postgresql://localhost/opensooq')
+        self.scrapped_urls = pd.read_sql_query('select * from deals;',con=con)
+        self.scrapped_urls = self.scrapped_urls['url'].values
+
+        
     
+            
     rules = [
         Rule(LinkExtractor(allow=('\S+/'),
+                           #process_value=process_links,
                            restrict_xpaths='//li[@class="next"]/a'),
              follow=True),
         Rule(LinkExtractor(allow=('\S+/'),
@@ -36,23 +55,32 @@ class Opensooq(CrawlSpider):
                    'description' : "//div[contains(@class, 'galleryCont')]/div[@class='albumDet clear']/div[@class='postDesc']/p/text()",
                    'price': '//span[contains(@class, "priceNo")]/text()'
                    }
-    def __init__(self):
-        super().__init__()
+    
+    
+            
         
+            
+    
     
     def parse_sub(self, response):
-        self.logger.info('----------IN FUNCTION------------')
-        
-        
-        loader = ItemLoader(OpenSooqCar(), response=response)
-        
-        loader.default_input_processor = MapCompose(str.strip)
-        loader.default_output_processor = Join()
-        
-        loader.add_value('url', response.url)
-        
-        for field, xpath in self.item_fields.items():
-            self.logger.info(field)
-            loader.add_xpath(field, xpath)
-        
-        yield loader.load_item()
+
+        if response.url not in self.scrapped_urls:
+            self.logger.info('----------SCRAPING------------')
+
+
+            loader = ItemLoader(OpenSooqCar(), response=response)
+
+            loader.default_input_processor = MapCompose(str.strip)
+            loader.default_output_processor = Join()
+
+            loader.add_value('url', response.url)
+
+            for field, xpath in self.item_fields.items():
+                self.logger.info(field)
+                loader.add_xpath(field, xpath)
+
+            yield loader.load_item()
+        else:
+            self.logger.info('----------IGNORED------------')
+                
+
