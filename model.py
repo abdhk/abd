@@ -31,6 +31,7 @@ class Deals(DeclarativeBase):
     description = Column('description', String, nullable = True)
     url= Column('url', String, nullable=True)
     price = Column('price', String, nullable=True)
+    images_names = Column('image_names', String, nullable=True)
     
 
 

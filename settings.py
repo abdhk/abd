@@ -12,14 +12,24 @@ DATABASE = {
     }
 IMAGE_STORE = '/images'
 
-ITEM_PIPELINES = {'opensooq.pipeline.OpenSooqPipeline':10,}
+ITEM_PIPELINES = {'opensooq.pipeline.OpenSooqPipeline':10,
+                  'scrapy.pipelines.images.ImagesPipeline': 1}
 
+IMAGES_STORE = '/Users/eweiwi/code/python/scrapy/opensooq/images'
+
+
+DELTAFETCH_ENABLED = True
+DELTAFETCH_DIR = '/Users/eweiwi/code/python/scrapy/opensooq/'
+
+SPIDER_MIDDLEWARES = {
+    'scrapy_deltafetch.DeltaFetch': 100,
+}
 
 #DOWNLOADER_MIDDLEWARES = {
     #'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
     #'scrapy_proxies.RandomProxy': 100,
     #'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
-#}
+    #}
 
 #PROXY_MODE = 0
 #RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
@@ -37,8 +47,8 @@ ITEM_PIPELINES = {'opensooq.pipeline.OpenSooqPipeline':10,}
     #'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:28.0) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2',
 #]
 
-AUTOTHROTTLE_START_DELAY=5
+#AUTOTHROTTLE_START_DELAY=5
 # The maximum download delay to be set in case of high latencies
-AUTOTHROTTLE_MAX_DELAY=60
+#AUTOTHROTTLE_MAX_DELAY=60
 # Enable showing throttling stats for every response received:
-AUTOTHROTTLE_DEBUG=True
+#AUTOTHROTTLE_DEBUG=True
